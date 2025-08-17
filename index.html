@@ -3,215 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfect Win Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <title>Perfect Win | Alexanderoff</title>
+  <link rel="icon" type="image/png" href="favicon.png">
   <style>
-    /* Reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
-      font-family: 'Share Tech Mono', monospace;
-      background: black;
-      color: #00ffcc;
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0a0a0a;
+      color: #f5f5f5;
       overflow-x: hidden;
     }
-
-    /* Matrix Effect */
-    canvas { position: fixed; top: 0; left: 0; z-index: -1; }
-
-    /* Hero Section */
-    .hero {
+    header {
+      height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       text-align: center;
-      padding: 0 20px;
+      background: linear-gradient(135deg, #000, #111);
     }
-
-    .hero h1 {
-      font-family: 'Orbitron', sans-serif;
+    header h1 {
       font-size: 4rem;
-      color: #00ffe5;
-      text-shadow: 0 0 15px #00ffe5, 0 0 30px #00ffe5;
-      animation: glow 2s ease-in-out infinite alternate;
+      color: #80ffea;
+      text-shadow: 0 0 20px #00f7ff;
+      animation: glow 2s infinite alternate;
     }
-
+    header p {
+      font-size: 1.3rem;
+      color: #bbb;
+      max-width: 600px;
+    }
     @keyframes glow {
-      from { text-shadow: 0 0 10px #00ffe5, 0 0 20px #00ffe5; }
-      to { text-shadow: 0 0 25px #00ffe5, 0 0 50px #00ffe5; }
+      from { text-shadow: 0 0 10px #00f7ff; }
+      to { text-shadow: 0 0 25px #00f7ff, 0 0 40px #00f7ff; }
     }
 
-    .hero p {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      max-width: 800px;
-      line-height: 1.6;
-    }
-
-    /* Sections */
-    section {
-      padding: 80px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    section h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 2rem;
-      color: #00ffe5;
-      margin-bottom: 40px;
-      text-align: center;
-      text-shadow: 0 0 10px #00ffe5;
-    }
-
-    /* Projects */
     .projects {
+      padding: 50px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
+      gap: 20px;
     }
-
     .project-card {
-      background: rgba(0,255,204,0.05);
-      border: 1px solid #00ffcc;
-      padding: 20px;
+      background: #111;
       border-radius: 12px;
-      transition: transform 0.3s, box-shadow 0.3s;
+      padding: 20px;
       cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 0 20px rgba(0, 255, 200, 0.15);
     }
-
     .project-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 20px #00ffe5;
+      transform: translateY(-5px);
+      box-shadow: 0 0 30px rgba(0, 255, 200, 0.25);
+    }
+    .project-card.expanded {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 90%;
+      height: 90%;
+      transform: translate(-50%, -50%) scale(1);
+      z-index: 1000;
+      background: #0d0d0d;
+      border-radius: 20px;
+      padding: 30px;
+      overflow-y: auto;
+      box-shadow: 0 0 40px rgba(128,255,234,0.4);
+      transition: all 0.4s ease;
+    }
+    .project-card .details { display: none; }
+    .project-card.expanded .details { display: block; animation: fadeIn 0.6s ease; }
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #80ffea;
     }
 
-    .project-card h3 {
-      margin-bottom: 15px;
-      color: #00ffe5;
+    footer {
+      padding: 30px;
+      text-align: center;
+      background: #111;
     }
-
-    .project-card p {
-      font-size: 0.95rem;
-      color: #e0e0e0;
-    }
-
-    /* About Section */
-    .typewriter {
-      overflow: hidden;
-      border-right: .15em solid #00ffcc;
-      white-space: nowrap;
-      animation: typing 6s steps(60, end), blink-caret .75s step-end infinite;
-      font-size: 1.1rem;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-
-    @keyframes blink-caret {
-      50% { border-color: transparent }
-    }
-
-    /* Contact */
-    .contact a {
-      display: inline-block;
-      margin: 10px 15px;
-      color: #00ffcc;
+    footer a {
+      color: #80ffea;
+      margin: 0 10px;
       text-decoration: none;
-      transition: color 0.3s;
     }
-
-    .contact a:hover {
-      color: #ffffff;
-    }
-
   </style>
 </head>
 <body>
-  <canvas id="matrix"></canvas>
 
-  <section class="hero">
-    <h1>Perfect Win</h1>
-    <p>Since 2017, I have been moving in silence. While others wasted their time, I collected knowledge, sharpened my skills, and built my world in the shadows. This summer, I revealed my strength and launched my own projects.</p>
-  </section>
+<header>
+  <h1>Perfect Win</h1>
+  <p>I move in silence, mastering systems, building projects, and shaping my own digital empire. This is not just my work — it is my victory.</p>
+</header>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="project-card">
-        <h3>Alexanderoff Store</h3>
-        <p>My main project: a fully functional store showcasing my works and skills. Built and maintained entirely by me.</p>
-      </div>
-      <div class="project-card">
-        <h3>Perfect Win</h3>
-        <p>Portfolio site with dynamic animations and unique design, representing my journey from student to master.</p>
-      </div>
-      <div class="project-card">
-        <h3>Other Projects</h3>
-        <p>Multiple small projects in coding, networking, and tech experimentation. Constantly learning and innovating.</p>
-      </div>
-    </div>
-  </section>
+<section class="projects">
+  <div class="project-card" data-title="Raspberry Pi" data-desc="I built personal data centers using Raspberry Pi. Tested Arch Linux, Ubuntu Server, and Kali Linux on it. I deployed VPN solutions, firewalls, and automation scripts. Limited hardware taught me how to think like a real hacker: efficiency and precision.">
+    <h3>Raspberry Pi</h3>
+    <p>DIY mini servers and experiments.</p>
+  </div>
 
-  <section id="about">
-    <h2>About Me</h2>
-    <div class="typewriter">
-      Like L, I observe from the shadows. Like Light, I rewrite the world. Nothing is impossible when you’ve already calculated the ending. I am a master, an innovator, a digital pioneer. This is my perfect victory.
-    </div>
-  </section>
+  <div class="project-card" data-title="Marzban & Panels" data-desc="Worked with Linux-based Marzban and management panels. Optimized traffic, load balancing, and scalability. Days of terminal commands shaped me into an underground engineer — every command a new lesson.">
+    <h3>Marzban & Panels</h3>
+    <p>Linux panels and system scaling.</p>
+  </div>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <div class="contact">
-      <a href="https://alexanderoff.store" target="_blank">Website</a>
-      <a href="https://github.com/alexanderofficial09" target="_blank">GitHub</a>
-      <a href="mailto:alexander@alexanderoff.store">Email</a>
-    </div>
-  </section>
+  <div class="project-card" data-title="Custom Share Link Panel" data-desc="I built my own share link panel from scratch. Users could manage their links, with enhanced security and stability. It was not just coding — it was building an experience with my own signature.">
+    <h3>Share Link Panel</h3>
+    <p>My own project, secure and stable.</p>
+  </div>
 
-  <script>
-    // Matrix Effect
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
+  <div class="project-card" data-title="Linux Mastery" data-desc="Linux became my language. From Arch to Debian, Ubuntu to Kali — I explored them all. System administration, kernel tweaks, bash scripting. The terminal is my playground, and commands are my weapons.">
+    <h3>Linux Mastery</h3>
+    <p>Arch, Debian, Ubuntu, Kali & more.</p>
+  </div>
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  <div class="project-card" data-title="Future Projects" data-desc="Countless ideas, unannounced plans, and sleepless nights ahead. My mission is clear: not just to build, but to conquer. Perfect Victory.">
+    <h3>Future Projects</h3>
+    <p>Endless vision, sleepless nights.</p>
+  </div>
+</section>
 
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^%';
-    const fontSize = 16;
-    const columns = canvas.width / fontSize;
+<footer>
+  <p>Contact me: 
+    <a href="https://t.me/alenvpns">Telegram</a> |
+    <a href="https://linkm.me/users/isgenderow">Messenger</a> |
+    <a href="mailto:isgenderowgundogdy8@gmail.com">Gmail</a>
+  </p>
+  <p>&copy; 2025 Alexanderoff. Perfect Win.</p>
+</footer>
 
-    const drops = Array(Math.floor(columns)).fill(1);
+<script>
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', () => {
+      if (card.classList.contains('expanded')) return;
+      card.classList.add('expanded');
+      const details = document.createElement('div');
+      details.className = 'details';
+      details.innerHTML = `<span class="close-btn">&times;</span><h2>${card.dataset.title}</h2><p>${card.dataset.desc}</p>`;
+      card.appendChild(details);
 
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = '#00ffcc';
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-
-    setInterval(draw, 50);
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      details.querySelector('.close-btn').addEventListener('click', e => {
+        e.stopPropagation();
+        card.classList.remove('expanded');
+        details.remove();
+      });
     });
-  </script>
+  });
+</script>
+
 </body>
 </html>
